@@ -1,0 +1,85 @@
+[gd_scene load_steps=12 format=3 uid="uid://bpsohrts0o74e"]
+
+[ext_resource type="PackedScene" uid="uid://bgshhb5wmstt6" path="res://Art/Props/SM_brahmaCan.fbx" id="1_frrki"]
+[ext_resource type="Script" path="res://Core/Pickable/SC_pickableItem.gd" id="1_ndwd7"]
+[ext_resource type="Shader" uid="uid://bacbg36oqvtbp" path="res://MaterialLibrary/SHV_globalMaterial.tres" id="2_fypxa"]
+[ext_resource type="Texture2D" uid="uid://k07twswj5nnj" path="res://Art/Props/T_brahma_D.jpg" id="3_bx4vx"]
+[ext_resource type="Texture2D" uid="uid://dsuwsq1h7ye1p" path="res://MaterialLibrary/T_star.png" id="4_c2he3"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_m6ch6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fsy5j"]
+render_priority = 0
+shader = ExtResource("2_fypxa")
+shader_parameter/Roughness = 200.0
+shader_parameter/IsPickable = true
+shader_parameter/Dithering_Scale = 4.0
+shader_parameter/Diffuse = ExtResource("3_bx4vx")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pvrlv"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("4_c2he3")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_yb8r6"]
+material = SubResource("StandardMaterial3D_pvrlv")
+size = Vector2(0.1, 0.1)
+
+[sub_resource type="Curve" id="Curve_qiwpf"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_n5tbe"]
+offsets = PackedFloat32Array(0, 0.507553, 1)
+colors = PackedColorArray(1, 1, 1, 0, 0.88, 0.88, 0.88, 0.556863, 0.9, 1, 0, 0)
+
+[node name="Area3D" type="Area3D" groups=["Interactable"]]
+script = ExtResource("1_ndwd7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_m6ch6")
+
+[node name="MeshNode" type="Node3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="SM_BrahmaCan" parent="MeshNode" instance=ExtResource("1_frrki")]
+
+[node name="SM_BrahmaCan" parent="MeshNode/SM_BrahmaCan" index="0"]
+surface_material_override/0 = SubResource("ShaderMaterial_fsy5j")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.234418, 0)
+emitting = false
+amount = 1
+one_shot = true
+mesh = SubResource("QuadMesh_yb8r6")
+emission_shape = 2
+emission_sphere_radius = 0.2
+gravity = Vector3(0, 0.1, 0)
+damping_min = 0.3
+damping_max = 0.3
+scale_amount_curve = SubResource("Curve_qiwpf")
+color_ramp = SubResource("Gradient_n5tbe")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.591768, 0)
+visible = false
+billboard = 1
+no_depth_test = true
+modulate = Color(1, 1, 1, 0.513726)
+text = "E"
+outline_size = 0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+
+[editable path="MeshNode/SM_BrahmaCan"]

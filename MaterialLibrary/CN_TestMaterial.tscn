@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=3 uid="uid://bj0m3d10ej02"]
+
+[ext_resource type="Shader" uid="uid://bacbg36oqvtbp" path="res://MaterialLibrary/SHV_globalMaterial.tres" id="1_baj2l"]
+[ext_resource type="Texture2D" uid="uid://k07twswj5nnj" path="res://Art/Props/T_brahma_D.jpg" id="2_k3vfg"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_7my8g"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nq22x"]
+render_priority = 0
+shader = ExtResource("1_baj2l")
+shader_parameter/Roughness = 0.5
+shader_parameter/IsPickable = true
+shader_parameter/Dithering_Scale = 64.0
+shader_parameter/Diffuse = ExtResource("2_k3vfg")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_7my8g")
+surface_material_override/0 = SubResource("ShaderMaterial_nq22x")

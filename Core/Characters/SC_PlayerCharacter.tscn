@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://byej7aoc5mymv"]
+
+[ext_resource type="Script" path="res://Core/GameplayMechanics/GD_player.gd" id="1_dwg3e"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_cgw0q"]
+height = 1.65
+
+[node name="SC_PlayerCharacter" type="CharacterBody3D"]
+script = ExtResource("1_dwg3e")
+moveSpeed = 4.0
+headMoveAmount = 0.15
+cameraHeadMoveSpeed = 8.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.825, 0)
+shape = SubResource("CapsuleShape3D_cgw0q")
+
+[node name="CameraSystem" type="Node3D" parent="."]
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraSystem"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.10865, 0)
+spring_length = 0.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraSystem/SpringArm3D"]
+
+[node name="RayCastInteract" type="RayCast3D" parent="CameraSystem/SpringArm3D/Camera3D"]
+target_position = Vector3(0, 0, -1.5)
+collide_with_areas = true
+
+[node name="DefaultPivot" type="Marker3D" parent="CameraSystem"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.10865, 0)

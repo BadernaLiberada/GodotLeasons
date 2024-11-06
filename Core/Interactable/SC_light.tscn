@@ -1,0 +1,81 @@
+[gd_scene load_steps=10 format=3 uid="uid://wn1m64tmc2aw"]
+
+[ext_resource type="Script" path="res://Core/Interactable/GD_light.gd" id="1_74f3a"]
+[ext_resource type="Texture2D" uid="uid://dsuwsq1h7ye1p" path="res://MaterialLibrary/T_star.png" id="2_qy3cc"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_m6ch6"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_apleq"]
+size = Vector3(0.85, 0.72, 0.125)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5cvvc"]
+albedo_color = Color(0.5, 0, 1, 1)
+emission_enabled = true
+emission = Color(0.26792, 0, 1, 1)
+emission_energy_multiplier = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pvrlv"]
+transparency = 1
+blend_mode = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("2_qy3cc")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_yb8r6"]
+material = SubResource("StandardMaterial3D_pvrlv")
+size = Vector2(0.1, 0.1)
+
+[sub_resource type="Curve" id="Curve_qiwpf"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.849582, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Gradient" id="Gradient_n5tbe"]
+offsets = PackedFloat32Array(0, 0.507553, 1)
+colors = PackedColorArray(1, 1, 1, 0, 0.88, 0.88, 0.88, 0.556863, 0.9, 1, 0, 0)
+
+[node name="Area3D" type="Area3D" groups=["Interactable"]]
+script = ExtResource("1_74f3a")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_m6ch6")
+
+[node name="MeshNode" type="Node3D" parent="."]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshNode"]
+transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
+mesh = SubResource("PrismMesh_apleq")
+surface_material_override/0 = SubResource("StandardMaterial3D_5cvvc")
+
+[node name="CPUParticles3D" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.234418, 0)
+emitting = false
+amount = 1
+one_shot = true
+mesh = SubResource("QuadMesh_yb8r6")
+emission_shape = 2
+emission_sphere_radius = 0.2
+gravity = Vector3(0, 0.1, 0)
+damping_min = 0.3
+damping_max = 0.3
+scale_amount_curve = SubResource("Curve_qiwpf")
+color_ramp = SubResource("Gradient_n5tbe")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0852168, 0)
+visible = false
+billboard = 1
+no_depth_test = true
+modulate = Color(1, 1, 1, 0.513726)
+text = "E"
+outline_size = 0
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
