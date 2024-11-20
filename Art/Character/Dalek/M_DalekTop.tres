@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://du8583sh5dybr"]
+
+[ext_resource type="Shader" uid="uid://bacbg36oqvtbp" path="res://MaterialLibrary/SHV_globalMaterial.tres" id="1_70027"]
+[ext_resource type="Texture2D" uid="uid://62c5o1tcfn3l" path="res://Art/Character/Dalek/T_Top_D.png" id="2_2nrx1"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_70027")
+shader_parameter/Roughness = 0.5
+shader_parameter/IsPickable = null
+shader_parameter/Dithering_Scale = 4.0
+shader_parameter/Diffuse = ExtResource("2_2nrx1")

@@ -14,11 +14,6 @@ extends CharacterBody3D
 @onready var is_just_jumping := false
 @onready var is_just_on_floor := false
 
-
-
-
-
-
 @export_group("Camera")
 enum CAMERA_STATE { DEFAULTPOS,NOCAMERACONTROL, CUTSCENE}
 @export_range(0.0, 1.0) var mouse_sensitivity := 0.25
@@ -30,17 +25,22 @@ enum CAMERA_STATE { DEFAULTPOS,NOCAMERACONTROL, CUTSCENE}
 @onready var defaultPivot: Node3D = $CameraSystem/DefaultPivot
 @onready var playerCamera: Camera3D = $CameraSystem/SpringArm3D/Camera3D
 @onready var _camera_spring_arm:= $CameraSystem/SpringArm3D
-@onready var rayCastInteract:= $CameraSystem/SpringArm3D/Camera3D/RayCastInteract
 var defaultPivotPosition:Vector3
 var camera_state: CAMERA_STATE
 var mouseInput : Vector2
 @onready var can_double_jump := true
 @onready var rotation_target := Vector3.ZERO
+
+@onready var rayCastInteract:= $CameraSystem/SpringArm3D/Camera3D/RayCastInteract
+var interactableItemOBJ:InteractableItem
+
+@onready var playerHandSlot:=$CameraSystem/SpringArm3D/Camera3D/GrabSlot
 #endregion
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	defaultPivotPosition = defaultPivot.position
+	GameInstance.playerRef = self
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
@@ -78,6 +78,10 @@ func _camera_movement(delta:float)->void:
 		playerCamera.fov=lerp(playerCamera.fov,30.0,delta*cameraZoomSpeed)
 	else:
 		playerCamera.fov=lerp(playerCamera.fov,75.0,delta*cameraZoomSpeed)
+	if rayCastInteract.is_colliding() and rayCastInteract.get_collider():
+		if rayCastInteract.get_collider().is_in_group("Interactable"):
+			rayCastInteract.get_collider().canInteract=true
+			interactableItemOBJ = rayCastInteract.get_collider()
 
 func _movement(delta:float) -> void:
 	if not is_on_floor(): velocity.y -= gravity * delta
@@ -91,4 +95,5 @@ func _movement(delta:float) -> void:
 	move_and_slide()
 
 func _interact() -> void:
-	pass
+	if interactableItemOBJ!=null:
+		interactableItemOBJ._interact()

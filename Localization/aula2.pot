@@ -1,0 +1,16 @@
+# LANGUAGE translation for GodotAulas for the following files:
+# res://Maps/Aula 2.scn
+#
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: GodotAulas\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8-bit\n"
+
+#: Maps/Aula 2.scn
+msgid "+"
+msgstr ""

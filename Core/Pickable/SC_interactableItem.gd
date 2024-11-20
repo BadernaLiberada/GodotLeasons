@@ -1,2 +1,0 @@
-class_name InteractableItem
-extends Area3D

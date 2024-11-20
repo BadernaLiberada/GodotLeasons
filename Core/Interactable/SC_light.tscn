@@ -71,7 +71,6 @@ autostart = true
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0852168, 0)
-visible = false
 billboard = 1
 no_depth_test = true
 modulate = Color(1, 1, 1, 0.513726)
